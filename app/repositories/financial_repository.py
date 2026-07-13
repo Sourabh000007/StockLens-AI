@@ -2,7 +2,9 @@ import pandas as pd
 import yfinance as yf
 
 from app.core.logger import logger
-from app.models.income_statement import (FinancialMetric,IncomeStatement,)
+from app.models.income_statement import FinancialMetric,IncomeStatement
+                                         
+from app.models.balance_sheet import BalanceSheet
 
 
 class FinancialRepository:
@@ -67,6 +69,49 @@ class FinancialRepository:
         except Exception:
             logger.exception(
                 "Failed to fetch income statement for {}",
+                symbol,
+            )
+            raise
+
+    def get_balance_sheet(self, symbol: str) -> BalanceSheet:
+        """
+        Fetch the company's balance sheet.
+        """
+
+        logger.info("Fetching balance sheet for {}", symbol)
+
+        try:
+            ticker = self._get_ticker(symbol)
+
+            dataframe = ticker.balance_sheet
+
+            if dataframe.empty:
+                raise ValueError(
+                    f"No balance sheet found for '{symbol}'."
+                )
+
+            return BalanceSheet(
+                total_assets=self._extract_metric(
+                    dataframe,
+                    "Total Assets",
+                ),
+                total_liabilities=self._extract_metric(
+                    dataframe,
+                    "Total Liabilities Net Minority Interest",
+                ),
+                total_equity=self._extract_metric(
+                    dataframe,
+                    "Stockholders Equity",
+                ),
+                cash_and_cash_equivalents=self._extract_metric(
+                    dataframe,
+                    "Cash And Cash Equivalents",
+                ),
+            )
+
+        except Exception:
+            logger.exception(
+                "Failed to fetch balance sheet for {}",
                 symbol,
             )
             raise

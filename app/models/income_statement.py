@@ -1,9 +1,5 @@
 from pydantic import BaseModel
-
-
-class FinancialMetric(BaseModel):
-    year: str
-    value: float
+from app.models.financial_metric import FinancialMetric
 
 
 class IncomeStatement(BaseModel):

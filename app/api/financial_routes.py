@@ -5,15 +5,14 @@ from app.dependencies import get_financial_service
 from app.services.financial_service import FinancialService
 from app.models.income_statement import IncomeStatement
 
+from app.models.balance_sheet import BalanceSheet
+
+
 router = APIRouter(prefix="/financials",tags=["Financials"])
 
-
 @router.get("/income-statement/{symbol}",response_model=IncomeStatement)
+def get_income_statement(symbol: str,service: FinancialService = Depends(get_financial_service)):
 
-def get_income_statement(
-    symbol: str,
-    service: FinancialService = Depends(get_financial_service),
-):
     """
     Get the company's income statement.
     """
@@ -25,6 +24,30 @@ def get_income_statement(
 
     except Exception as error:
         logger.exception("Failed to retrieve income statement")
+        raise HTTPException(
+            status_code=500,
+            detail=str(error),
+        )
+    
+
+@router.get("/balance-sheet/{symbol}",response_model=BalanceSheet)
+def get_balance_sheet(symbol: str,service: FinancialService = Depends(get_financial_service)):
+    
+    """
+    Get the company's balance sheet.
+    """
+
+    logger.info("Received request for balance sheet: {}", symbol)
+
+    try:
+        return service.get_balance_sheet(symbol)
+
+    except Exception as error:
+        logger.exception(
+            "Failed to retrieve balance sheet for {}",
+            symbol,
+        )
+
         raise HTTPException(
             status_code=500,
             detail=str(error),
