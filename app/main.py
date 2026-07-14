@@ -8,6 +8,7 @@ from app.core.logger import logger
 
 from app.api.financial_routes import router as financial_router
 
+from app.api.market_routes import router as market_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -43,3 +44,4 @@ def health():
 
 app.include_router(company_router)
 app.include_router(financial_router)
+app.include_router(market_router)

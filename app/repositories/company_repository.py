@@ -40,11 +40,26 @@ class CompanyRepository:
                 raise CompanyNotFoundError(symbol)
 
             return Company(
-                symbol=symbol.upper(),
-                company_name=company_name,
-                exchange=info.get("exchange", "Unknown"),
-                sector=info.get("sector", "Unknown"),
-                industry=info.get("industry", "Unknown"),
+                symbol=info.get("symbol", ""),
+
+                company_name=info.get("longName", ""),
+                short_name=info.get("shortName", ""),
+
+                exchange=info.get("exchange", ""),
+
+                sector=info.get("sector", ""),
+                industry=info.get("industry", ""),
+
+                country=info.get("country", ""),
+                city=info.get("city", ""),
+
+                website=info.get("website", ""),
+
+                investor_relations_website=info.get("irWebsite"),
+
+                full_time_employees=info.get("fullTimeEmployees"),
+
+                business_summary=info.get("longBusinessSummary", ""),
             )
 
         except CompanyNotFoundError:
