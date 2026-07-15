@@ -50,7 +50,11 @@ if load_clicked:
     with st.spinner("Loading financial statements..."):
         income_statement = financial_dashboard.get_income_statement(symbol)
 
-        render_financial_statement_section(income_statement)
+        balance_sheet = financial_dashboard.get_balance_sheet(symbol)
+
+        render_financial_statement_section(income_statement,balance_sheet)
+
+        
 
     
 
