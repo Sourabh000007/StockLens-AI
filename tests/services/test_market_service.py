@@ -9,3 +9,13 @@ def test_get_price_history():
     history = service.get_price_history("TCS.NS")
 
     assert len(history) > 0
+
+
+def test_get_market_snapshot():
+    repository = MarketRepository()
+    service = MarketService(repository)
+
+    snapshot = service.get_market_snapshot("TCS.NS")
+
+    assert snapshot.current_price > 0
+    assert snapshot.market_cap > 0

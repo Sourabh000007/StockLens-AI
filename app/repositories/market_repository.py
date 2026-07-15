@@ -2,8 +2,9 @@ import yfinance as yf
 
 from app.core.logger import logger
 from app.models.market_data import PriceData
-from datetime import date
+# from datetime import date
 
+from app.models.market_snapshot import MarketSnapshot
 
 class MarketRepository:
     """Repository responsible for fetching market data."""
@@ -54,3 +55,33 @@ class MarketRepository:
                 symbol,
             )
             raise
+
+    def get_market_snapshot(self, symbol: str) -> MarketSnapshot:
+        """
+        Fetch the latest market snapshot for a company.
+        """
+
+        try:
+            ticker = yf.Ticker(symbol)
+
+            info = ticker.info
+
+            return MarketSnapshot(
+                current_price=info.get("currentPrice", 0.0),
+                previous_close=info.get("previousClose", 0.0),
+                day_high=info.get("dayHigh", 0.0),
+                day_low=info.get("dayLow", 0.0),
+                volume=info.get("volume", 0),
+                market_cap=info.get("marketCap", 0.0),
+                currency=info.get("currency", ""),
+            )
+
+        except Exception as ex:
+            logger.exception(
+                "Failed to fetch market snapshot for %s",
+                symbol,
+            )
+
+            raise RuntimeError(
+                f"Unable to fetch market snapshot for '{symbol}'."
+            ) from ex

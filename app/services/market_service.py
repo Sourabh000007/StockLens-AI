@@ -1,5 +1,6 @@
 from app.models.market_data import PriceData
 from app.repositories.market_repository import MarketRepository
+from app.models.market_snapshot import MarketSnapshot
 
 
 class MarketService:
@@ -14,3 +15,10 @@ class MarketService:
         Retrieve historical market data.
         """
         return self.repository.get_price_history(symbol, period)
+    
+    def get_market_snapshot(self, symbol: str) -> MarketSnapshot:
+        """
+        Retrieve the latest market snapshot.
+        """
+
+        return self.repository.get_market_snapshot(symbol)
