@@ -2,13 +2,11 @@ from app.repositories.company_repository import CompanyRepository
 from app.services.company_search_service import CompanySearchService
 
 
-def test_get_company():
+def test_get_company_statistics():
+
     repository = CompanyRepository()
     service = CompanySearchService(repository)
 
-    company = service.get_company("TCS.NS")
+    stats = service.get_company_statistics("TCS.NS")
 
-    assert company.symbol == "TCS.NS"
-    assert company.company_name != ""
-
-    assert company.website is not None
+    assert stats.market_cap is not None
