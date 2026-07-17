@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
 
     groq_api_key: str
+    groq_model: str = "llama-3.3-70b-versatile"
 
     embedding_model: str
     vector_db_path: Path
