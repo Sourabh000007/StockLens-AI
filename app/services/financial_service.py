@@ -2,6 +2,8 @@ from app.models.income_statement import IncomeStatement
 from app.repositories.financial_repository import FinancialRepository
 from app.models.balance_sheet import BalanceSheet
 
+from app.models.cash_flow import CashFlow
+
 
 class FinancialService:
     """Business logic for financial statements."""
@@ -20,3 +22,10 @@ class FinancialService:
         Retrieve the company's balance sheet.
         """
         return self.repository.get_balance_sheet(symbol)
+    
+    def get_cash_flow(self,symbol: str) -> CashFlow:
+        """
+        Retrieve the company's cash flow statement.
+        """
+
+        return self.repository.get_cash_flow(symbol)

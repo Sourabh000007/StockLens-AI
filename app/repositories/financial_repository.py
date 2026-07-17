@@ -6,6 +6,8 @@ from app.models.income_statement import FinancialMetric,IncomeStatement
                                          
 from app.models.balance_sheet import BalanceSheet
 
+from app.models.cash_flow import CashFlow
+
 
 class FinancialRepository:
     """Repository responsible for fetching financial statements."""
@@ -112,6 +114,45 @@ class FinancialRepository:
         except Exception:
             logger.exception(
                 "Failed to fetch balance sheet for {}",
+                symbol,
+            )
+            raise
+
+    def get_cash_flow(self,symbol: str) -> CashFlow:
+        """
+        Fetch the company's cash flow statement.
+        """
+
+        logger.info("Fetching cash flow statement for {}", symbol)
+
+        try:
+            ticker = self._get_ticker(symbol)
+
+            dataframe = ticker.cash_flow
+
+            if dataframe.empty:
+                raise ValueError(
+                    f"No cash flow statement found for '{symbol}'."
+                )
+
+            return CashFlow(
+                operating_cash_flow=self._extract_metric(
+                    dataframe,
+                    "Operating Cash Flow",
+                ),
+                investing_cash_flow=self._extract_metric(
+                    dataframe,
+                    "Investing Cash Flow",
+                ),
+                financing_cash_flow=self._extract_metric(
+                    dataframe,
+                    "Financing Cash Flow",
+                ),
+            )
+
+        except Exception:
+            logger.exception(
+                "Failed to fetch cash flow statement for {}",
                 symbol,
             )
             raise

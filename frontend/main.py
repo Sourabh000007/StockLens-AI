@@ -52,7 +52,9 @@ if load_clicked:
 
         balance_sheet = financial_dashboard.get_balance_sheet(symbol)
 
-        render_financial_statement_section(income_statement,balance_sheet)
+        cash_flow = financial_dashboard.get_cash_flow(symbol)
+
+        render_financial_statement_section(income_statement,balance_sheet,cash_flow)
 
         
 

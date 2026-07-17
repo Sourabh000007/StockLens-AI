@@ -25,3 +25,10 @@ class FinancialDashboardService:
         """
 
         return self.financial_service.get_balance_sheet(symbol)
+    
+    def get_cash_flow(self,symbol: str) :
+        """
+        Retrieve the company's cash flow statement.
+        """
+
+        return self.financial_service.get_cash_flow(symbol)
