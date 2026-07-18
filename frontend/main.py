@@ -122,8 +122,7 @@ if load_clicked:
 
     st.markdown("###")
 
-    with st.container(border=True):
-        render_financial_statement_section(income_statement,balance_sheet,cash_flow)
+    render_financial_statement_section(income_statement,balance_sheet,cash_flow)
 
         
 
