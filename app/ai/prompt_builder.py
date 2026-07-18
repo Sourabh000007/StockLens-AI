@@ -54,7 +54,7 @@ class PromptBuilder:
         return "\n".join(lines)
     
     @staticmethod
-    def build_company_report_prompt(company,income_statement,balance_sheet,cash_flow,) -> str:
+    def build_company_report_prompt(company,income_statement,balance_sheet,cash_flow,news_articles) -> str:
         """
         Build a prompt that requests a complete AI report.
         """
@@ -68,6 +68,9 @@ class PromptBuilder:
 
     Company Name:
     {company.company_name}
+
+    Recent News:
+    {PromptBuilder.format_news(news_articles)}
 
     Business Summary:
     {company.business_summary}
@@ -111,3 +114,29 @@ class PromptBuilder:
 
     Do not add explanations.
     """
+
+    @staticmethod
+    def format_news(articles) -> str:
+
+        """
+        Format news articles for the AI prompt.
+        """
+
+        if not articles:
+            return "No recent news."
+
+        lines = []
+
+        for article in articles:
+
+            lines.append(
+                f"""
+    Title: {article.title}
+
+    Publisher: {article.publisher}
+
+    Summary: {article.summary}
+    """
+            )
+
+        return "\n\n".join(lines)

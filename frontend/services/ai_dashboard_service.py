@@ -11,7 +11,7 @@ class AIDashboardService:
         self.ai_service = AIInsightService()
     
     
-    def get_company_report(self,company,income_statement,balance_sheet,cash_flow) -> AICompanyReport:
+    def get_company_report(self,company,income_statement,balance_sheet,cash_flow,news_articles,) -> AICompanyReport:
         """
         Generate the complete AI company report.
         """
@@ -21,4 +21,5 @@ class AIDashboardService:
             income_statement=income_statement,
             balance_sheet=balance_sheet,
             cash_flow=cash_flow,
+            news_articles=news_articles,
         )

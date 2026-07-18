@@ -10,6 +10,8 @@ class AICompanyReport(BaseModel):
 
     financial_health: str
 
+    news_summary: str
+
     strengths: list[str]
 
     risks: list[str]
