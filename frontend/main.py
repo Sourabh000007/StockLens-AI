@@ -15,6 +15,7 @@ from frontend.components.ai_risks import render_ai_risks
 from frontend.components.ai_investment_thesis import render_ai_investment_thesis
 from frontend.components.news_card import render_news_card
 from frontend.components.ai_news_summary import render_ai_news_summary
+from frontend.components.company_hero import render_company_hero
 
 from frontend.dependencies import (
     get_market_dashboard_service,
@@ -30,11 +31,25 @@ st.set_page_config(
     page_title="StockLens AI",
     page_icon="📈",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
+
+# st.title("📈 StockLens AI")
+
+# st.caption(
+#     "AI-Powered Equity Research Platform"
+# )
+
+st.write("")
 
 render_header()
 
-symbol, period, load_clicked = render_search_bar()
+with st.container():
+
+    symbol, period, load_clicked = render_search_bar()
+
+st.write("")
+
 market_dashboard = get_market_dashboard_service()
 company_dashboard = get_company_dashboard_service()
 financial_dashboard = get_financial_dashboard_service()
@@ -67,28 +82,47 @@ if load_clicked:
         snapshot = market_dashboard.get_market_snapshot(symbol)
         
 
-    render_company_card(company)
-    render_news_card(news_articles)
-    render_business_summary(company)
-    render_ai_company_summary(ai_report.summary)
-    render_ai_news_summary(ai_report.news_summary)
-    render_ai_financial_health(ai_report.financial_health)
-    render_ai_strengths(ai_report.strengths)
-    render_ai_risks(ai_report.risks)
-    render_ai_investment_thesis(ai_report.investment_thesis)
-    render_company_statistics_card(statistics)
-    render_market_snapshot(snapshot)
+    with st.container(border=True):
+        render_company_hero(company)
+        render_business_summary(company)
+    with st.container(border=True):
+        render_news_card(news_articles)
+    with st.container(border=True):
+        render_ai_company_summary(ai_report.summary)
+        render_ai_news_summary(ai_report.news_summary)
+        render_ai_financial_health(ai_report.financial_health)
+        render_ai_strengths(ai_report.strengths)
+        render_ai_risks(ai_report.risks)
+        render_ai_investment_thesis(ai_report.investment_thesis)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        with st.container(border=True):
+
+            render_market_snapshot(snapshot)
+
+    with col2:
+
+        with st.container(border=True):
+
+            render_company_statistics_card(statistics)
 
     with st.spinner("Loading market data..."):
+
         figure = market_dashboard.build_candlestick_chart(
             symbol=symbol,
             period=period,
         )
 
-    render_chart(figure)
+    with st.container(border=True):
 
-    with st.spinner("Loading financial statements..."):
+        render_chart(figure)
 
+    st.markdown("###")
+
+    with st.container(border=True):
         render_financial_statement_section(income_statement,balance_sheet,cash_flow)
 
         
