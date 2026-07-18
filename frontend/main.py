@@ -10,6 +10,10 @@ from frontend.components.financial_statement_section import render_financial_sta
 from frontend.components.company_statistics_card import render_company_statistics_card
 from frontend.components.ai_company_summary import render_ai_company_summary
 from frontend.components.ai_financial_health import render_ai_financial_health
+from frontend.components.ai_strengths import render_ai_strengths
+from frontend.components.ai_risks import render_ai_risks
+from frontend.components.ai_investment_thesis import render_ai_investment_thesis
+
 
 from frontend.dependencies import (
     get_market_dashboard_service,
@@ -17,8 +21,6 @@ from frontend.dependencies import (
     get_financial_dashboard_service,
     get_ai_dashboard_service
 )
-
-
 
 
 
@@ -50,9 +52,14 @@ if load_clicked:
 
         cash_flow = financial_dashboard.get_cash_flow(symbol)
 
-        ai_summary = ai_dashboard.get_company_summary(company)
+        balance_sheet = (financial_dashboard.get_balance_sheet(symbol))
 
-        financial_health = (ai_dashboard.get_financial_health(company,income_statement,cash_flow,))
+        ai_report = ai_dashboard.get_company_report(
+            company=company,
+            income_statement=income_statement,
+            balance_sheet=balance_sheet,
+            cash_flow=cash_flow,
+        )
 
         statistics = company_dashboard.get_company_statistics(symbol)    
 
@@ -61,8 +68,11 @@ if load_clicked:
 
     render_company_card(company)
     render_business_summary(company)
-    render_ai_company_summary(ai_summary)
-    render_ai_financial_health(financial_health)
+    render_ai_company_summary(ai_report.summary)
+    render_ai_financial_health(ai_report.financial_health)
+    render_ai_strengths(ai_report.strengths)
+    render_ai_risks(ai_report.risks)
+    render_ai_investment_thesis(ai_report.investment_thesis)
     render_company_statistics_card(statistics)
     render_market_snapshot(snapshot)
 

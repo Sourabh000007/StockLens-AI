@@ -1,6 +1,6 @@
 from app.models.company import Company
 from app.services.ai_insight_service import AIInsightService
-
+from app.models.ai.company_report import AICompanyReport
 
 class AIDashboardService:
     """
@@ -10,23 +10,15 @@ class AIDashboardService:
     def __init__(self):
         self.ai_service = AIInsightService()
     
-    def get_company_summary(self,company: Company,) -> str:
-        
-        """
-        Generate an AI company summary.
-        """
-
-        return self.ai_service.generate_company_summary(
-            company,
-        )
     
-    def get_financial_health(self,company,income_statement,cash_flow,) -> str:
+    def get_company_report(self,company,income_statement,balance_sheet,cash_flow) -> AICompanyReport:
         """
-        Generate AI financial health analysis.
+        Generate the complete AI company report.
         """
 
-        return self.ai_service.generate_financial_health(
-            company,
-            income_statement,
-            cash_flow,
+        return self.ai_service.generate_company_report(
+            company=company,
+            income_statement=income_statement,
+            balance_sheet=balance_sheet,
+            cash_flow=cash_flow,
         )

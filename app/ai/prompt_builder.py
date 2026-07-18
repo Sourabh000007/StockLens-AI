@@ -1,3 +1,8 @@
+from app.models.ai.company_report import AICompanyReport
+import json
+
+
+
 class PromptBuilder:
     """
     Responsible for constructing prompts
@@ -5,60 +10,104 @@ class PromptBuilder:
     """
 
     @staticmethod
-    def build_company_summary_prompt(
-        company_name: str,
-        business_summary: str) -> str:
+    def get_output_schema() -> str:
+        """
+        Return the JSON schema expected from the AI.
+        """
 
-        return f"""
-
-    You are a professional equity research analyst.
-
-    Company:
-    {company_name}
-
-    Business Description:
-    {business_summary}
-
-    Write a concise summary in simple language.
-
-    Keep it under 120 words.
-    """
+        return json.dumps(
+            AICompanyReport.model_json_schema(),
+            indent=2,
+        )
     
     @staticmethod
-    def build_financial_health_prompt(
-        company_name: str,
-        revenue: list,
-        operating_income: list,
-        net_income: list,
-        operating_cash_flow: list) -> str:
+    def format_metric(metrics) -> str:
         """
-        Build a prompt for financial health analysis.
+        Format a financial metric list into readable text.
         """
+
+        if not metrics:
+            return "Not Available"
+
+        lines = []
+
+        for metric in metrics:
+
+            value = metric.value
+
+            if abs(value) >= 1_000_000_000_000:
+                formatted = f"{value / 1_000_000_000_000:.2f} Trillion"
+
+            elif abs(value) >= 1_000_000_000:
+                formatted = f"{value / 1_000_000_000:.2f} Billion"
+
+            elif abs(value) >= 1_000_000:
+                formatted = f"{value / 1_000_000:.2f} Million"
+
+            else:
+                formatted = f"{value:,.0f}"
+
+            lines.append(
+                f"{metric.year}: {formatted}"
+            )
+
+        return "\n".join(lines)
+    
+    @staticmethod
+    def build_company_report_prompt(company,income_statement,balance_sheet,cash_flow,) -> str:
+        """
+        Build a prompt that requests a complete AI report.
+        """
+
+        schema = PromptBuilder.get_output_schema()
 
         return f"""
     You are an experienced equity research analyst.
 
-    Analyze the following financial information for {company_name}.
+    Analyze the company below.
+
+    Company Name:
+    {company.company_name}
+
+    Business Summary:
+    {company.business_summary}
 
     Revenue:
-    {revenue}
+    {PromptBuilder.format_metric(income_statement.revenue)}
 
     Operating Income:
-    {operating_income}
+    {PromptBuilder.format_metric(income_statement.operating_income)}
 
     Net Income:
-    {net_income}
+    {PromptBuilder.format_metric(income_statement.net_income)}
+
+    Total Assets:
+    {PromptBuilder.format_metric(balance_sheet.total_assets)}
+
+    Total Liabilities:
+    {PromptBuilder.format_metric(balance_sheet.total_liabilities)}
+
+    Total Equity:
+    {PromptBuilder.format_metric(balance_sheet.total_equity)}
 
     Operating Cash Flow:
-    {operating_cash_flow}
+    {PromptBuilder.format_metric(cash_flow.operating_cash_flow)}
 
-    Write a concise financial health assessment.
+    Investing Cash Flow:
+    {PromptBuilder.format_metric(cash_flow.investing_cash_flow)}
 
-    Mention:
-    - Revenue trend
-    - Profitability
-    - Cash generation
-    - Overall financial health
+    Financing Cash Flow:
+    {PromptBuilder.format_metric(cash_flow.financing_cash_flow)}
+    
+    Return ONLY valid JSON.
 
-    Keep it under 180 words.
+    The JSON MUST follow this schema:
+
+    {schema}
+
+    Do not include markdown.
+
+    Do not wrap the JSON in triple backticks.
+
+    Do not add explanations.
     """

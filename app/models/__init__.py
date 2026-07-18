@@ -1,0 +1,1 @@
+from app.models.ai.company_report import AICompanyReport
