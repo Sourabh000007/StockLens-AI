@@ -17,3 +17,7 @@ class AICompanyReport(BaseModel):
     risks: list[str]
 
     investment_thesis: str
+
+    health_score: float
+
+    health_rating: str

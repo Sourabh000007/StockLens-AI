@@ -8,6 +8,6 @@ def render_ai_investment_thesis(
     Render the AI investment thesis.
     """
 
-    st.subheader("💡 Investment Thesis")
+    st.markdown("### Investment Thesis")
 
     st.info(thesis)

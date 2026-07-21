@@ -1,6 +1,7 @@
 import streamlit as st
 
 from app.models.news_article import NewsArticle
+from frontend.utils.datetime_formatter import format_relative_date
 
 
 def render_news_card(articles: list[NewsArticle]):
@@ -17,22 +18,23 @@ def render_news_card(articles: list[NewsArticle]):
 
     for article in articles:
 
-        with st.container():
+        with st.container(border=True):
 
-            st.markdown(
-                f"### {article.title}"
-            )
+            st.markdown(f"### {article.title}")
 
-            st.caption(
-                f"{article.publisher} • {article.published_at}"
-            )
+            col1, col2 = st.columns([2, 1])
 
-            if article.summary:
-                st.write(article.summary)
+            with col1:
+                st.caption(f"🏢 {article.publisher}")
+
+            with col2:
+                st.caption(
+                    f"🕒 {format_relative_date(article.published_at)}"
+                )
+
+            st.write(article.summary)
 
             st.link_button(
-                "Read Full Article",
+                "Read Full Article →",
                 article.link,
             )
-
-            st.divider()

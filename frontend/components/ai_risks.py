@@ -8,7 +8,9 @@ def render_ai_risks(
     Render AI-identified company risks.
     """
 
-    st.subheader("⚠️ Key Risks")
+    st.markdown("### Key Risks")
 
     for risk in risks:
         st.warning(f"• {risk}")
+
+    st.divider()

@@ -8,7 +8,9 @@ def render_ai_strengths(
     Render AI-identified company strengths.
     """
 
-    st.subheader("💪 Key Strengths")
+    st.markdown("### Key Strengths")
 
     for strength in strengths:
         st.success(f"✓ {strength}")
+
+    st.divider()
