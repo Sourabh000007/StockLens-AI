@@ -1,28 +1,28 @@
 import streamlit as st
 
-from frontend.components.header import render_header
-from frontend.components.search_bar import render_search_bar
-from frontend.components.chart_section import render_chart
-from frontend.components.market_snapshot_card import render_market_snapshot
-from frontend.components.business_summary import render_business_summary
-from frontend.components.financial_statement_section import (
+from frontend.components.shared.header import render_header
+from frontend.components.shared.search_bar import render_search_bar
+from frontend.components.market.chart_section import render_chart
+from frontend.components.market.market_snapshot_card import render_market_snapshot
+from frontend.components.company.business_summary import render_business_summary
+from frontend.components.financial.financial_statement_section import (
     render_financial_statement_section,
 )
-from frontend.components.company_statistics_card import (
+from frontend.components.company.company_statistics_card import (
     render_company_statistics_card,
 )
-from frontend.components.ai_company_summary import render_ai_company_summary
-from frontend.components.ai_financial_health import render_ai_financial_health
-from frontend.components.ai_strengths import render_ai_strengths
-from frontend.components.ai_risks import render_ai_risks
-from frontend.components.ai_investment_thesis import (
+from frontend.components.ai.ai_company_summary import render_ai_company_summary
+from frontend.components.ai.ai_financial_health import render_ai_financial_health
+from frontend.components.ai.ai_strengths import render_ai_strengths
+from frontend.components.ai.ai_risks import render_ai_risks
+from frontend.components.ai.ai_investment_thesis import (
     render_ai_investment_thesis,
 )
-from frontend.components.news_card import render_news_card
-from frontend.components.ai_news_summary import render_ai_news_summary
-from frontend.components.company_hero import render_company_hero
+from frontend.components.news.news_card import render_news_card
+from frontend.components.ai.ai_news_summary import render_ai_news_summary
+from frontend.components.company.company_hero import render_company_hero
 
-from frontend.components.company_health_score import (
+from frontend.components.ai.company_health_score import (
     render_company_health_score,
 )
 

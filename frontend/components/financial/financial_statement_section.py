@@ -2,13 +2,13 @@ import streamlit as st
 
 from app.models.income_statement import IncomeStatement
 
-from frontend.components.income_statement_section import render_income_statement_section
+from frontend.components.financial.income_statement_section import render_income_statement_section
 
 from app.models.balance_sheet import BalanceSheet
-from frontend.components.balance_sheet_section import render_balance_sheet_section
+from frontend.components.financial.balance_sheet_section import render_balance_sheet_section
 
 from app.models.cash_flow import CashFlow
-from frontend.components.cash_flow_section import render_cash_flow_section
+from frontend.components.financial.cash_flow_section import render_cash_flow_section
 
 
 def render_financial_statement_section(income_statement: IncomeStatement,balance_sheet: BalanceSheet,cash_flow: CashFlow):
