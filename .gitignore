@@ -6,7 +6,6 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.pyc
 
 # Pytest
 .pytest_cache/
@@ -28,8 +27,21 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# ChromaDB
-chroma_db/
+# ==========================================
+# StockLens AI Generated Data
+# ==========================================
+
+# Chroma Vector Database
+data/vector_db/*
+!data/vector_db/.gitkeep
+
+# Parsed Report Cache
+data/cache/*
+!data/cache/.gitkeep
+
+# Annual Reports
+data/reports/*
+!data/reports/.gitkeep
 
 # Streamlit
 .streamlit/secrets.toml
