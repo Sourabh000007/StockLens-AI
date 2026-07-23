@@ -9,6 +9,8 @@ from app.services.market_service import MarketService
 
 from frontend.services.company_dashboard_service import CompanyDashboardService
 
+from app.services.annual_report_chat_service import AnnualReportChatService
+
 import streamlit as st
 
 
@@ -33,6 +35,13 @@ def get_market_service() -> MarketService:
     """
     repository = MarketRepository()
     return MarketService(repository)
+
+def get_annual_report_chat_service() -> AnnualReportChatService:
+    """
+    Return the Annual Report Chat service.
+    """
+
+    return AnnualReportChatService()
 
 @st.cache_resource
 def get_company_dashboard_service() -> CompanyDashboardService:

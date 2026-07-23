@@ -34,7 +34,7 @@ class GroqClient:
 
         return response.choices[0].message.content
     
-    def _extract_json(self,content: str) -> str:
+    def _extract_json(self,content: str) -> dict:
         """
         Extract JSON content from an LLM response.
         """

@@ -3,12 +3,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.company_routes import router as company_router
+from app.api.financial_routes import router as financial_router
+from app.api.market_routes import router as market_router
+from app.api.annual_report_routes import router as annual_report_router
 from app.core.config import settings
 from app.core.logger import logger
 
-from app.api.financial_routes import router as financial_router
 
-from app.api.market_routes import router as market_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -45,3 +46,4 @@ def health():
 app.include_router(company_router)
 app.include_router(financial_router)
 app.include_router(market_router)
+app.include_router(annual_report_router)
