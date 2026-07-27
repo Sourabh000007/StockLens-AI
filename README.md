@@ -2,43 +2,6 @@
   <img src="assets/banner.png" width="100%">
 </p>
 
-<h1 align="center">
-StockLens AI
-</h1>
-
-<p align="center">
-AI-Powered Equity Research Platform for Indian Stocks
-</p>
-
-<p align="center">
-FastAPI • Streamlit • RAG • ChromaDB • Groq • LLMs
-</p>
-
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green?logo=fastapi)
-
-![Streamlit](https://img.shields.io/badge/Streamlit-App-red?logo=streamlit)
-
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-![Status](https://img.shields.io/badge/Status-Active-success)
-
-![RAG](https://img.shields.io/badge/RAG-ChromaDB-purple)
-
-## Contents
-
-- Overview
-- Features
-- Architecture
-- Tech Stack
-- Project Structure
-- Installation
-- Usage
-- API Endpoints
-- Roadmap
-- Screenshots
-- License
 
 # 📈 StockLens AI
 
