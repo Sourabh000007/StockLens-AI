@@ -41,6 +41,8 @@ class VectorStore:
                     "company": chunk.company,
                     "report_year": chunk.report_year,
                     "chunk_id": chunk.chunk_id,
+                    "page_number": chunk.page_number if chunk.page_number is not None else -1,
+                    "section_title": chunk.section_title or "",
                 }
                 for chunk in chunks
             ],
@@ -92,18 +94,25 @@ class VectorStore:
                     {"report_year": report_year},
                 ]
             },
+            include=[
+                "documents",
+                "metadatas",
+                "distances",
+            ],
         )
 
         documents = results["documents"][0]
         metadatas = results["metadatas"][0]
         ids = results["ids"][0]
+        distances = results["distances"][0]
 
         retrieved_chunks = []
 
-        for chunk_id, text, metadata in zip(
+        for chunk_id, text, metadata, distance in zip(
             ids,
             documents,
             metadatas,
+            distances,
         ):
 
             retrieved_chunks.append(
@@ -112,6 +121,17 @@ class VectorStore:
                     text=text,
                     company=metadata["company"],
                     report_year=metadata["report_year"],
+                    distance=distance,
+                    page_number=(
+                        metadata["page_number"]
+                        if metadata.get("page_number", -1) != -1
+                        else None
+                    ),
+                    section_title=(
+                        metadata["section_title"]
+                        if metadata.get("section_title")
+                        else None
+                    ),
                 )
             )
 

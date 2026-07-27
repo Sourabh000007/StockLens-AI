@@ -1,5 +1,5 @@
 from app.ai.groq_client import GroqClient
-from app.ai.rag.answer_prompt_builder import AnswerPromptBuilder
+from app.ai.prompts.annual_report_prompt import AnnualReportPrompt
 from app.models.rag import AnnualReportAnswer
 from app.rag.retrieval_service import RetrievalService
 
@@ -13,7 +13,7 @@ class AnnualReportChatService:
 
         self.retrieval_service = RetrievalService()
 
-        self.prompt_builder = AnswerPromptBuilder()
+        self.prompt_builder = AnnualReportPrompt()
 
         self.groq_client = GroqClient()
 

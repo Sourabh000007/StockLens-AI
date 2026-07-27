@@ -1,6 +1,7 @@
 from app.models.rag import RetrievedChunk
 from app.rag.embedding_service import EmbeddingService
 from app.rag.vector_store import VectorStore
+from app.rag.reranker import Reranker
 
 
 class RetrievalService:
@@ -10,6 +11,8 @@ class RetrievalService:
         self.embedding_service = EmbeddingService()
 
         self.vector_store = VectorStore()
+
+        self.reranker = Reranker()
 
     def retrieve(
         self,
@@ -25,8 +28,11 @@ class RetrievalService:
             question,
         )
 
-        return self.vector_store.search(
+        chunks = self.vector_store.search(
             query_embedding=query_embedding,
             company=company,
             report_year=report_year,
+            top_k=15,
         )
+
+        return self.reranker.rerank(chunks)

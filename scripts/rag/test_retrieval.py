@@ -26,6 +26,8 @@ def main():
         print(f"Chunk ID    : {chunk.chunk_id}")
         print(f"Company     : {chunk.company}")
         print(f"Report Year : {chunk.report_year}")
+        print(f"Page        : {chunk.page_number}")
+        print(f"Section     : {chunk.section_title}")
 
         print()
 

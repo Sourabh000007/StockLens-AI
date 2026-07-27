@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import re
 
 
 @dataclass
@@ -17,6 +18,10 @@ class TextChunk:
 
     text: str
 
+    page_number: int | None = None
+
+    section_title: str | None = None
+
 class TextChunker:
     """
     Splits document text into overlapping chunks.
@@ -32,14 +37,22 @@ class TextChunker:
         chunks = []
 
         start = 0
-
         chunk_id = 1
 
+        # NEW
+        current_page = None
+
         while start < len(text):
-
             end = start + self.chunk_size
-
             chunk = text[start:end]
+
+            page_number = self._find_page_number(chunk)
+
+            # NEW: propagate the last known page
+            if page_number is not None:
+                current_page = page_number
+            else:
+                page_number = current_page
 
             chunks.append(
                 TextChunk(
@@ -48,14 +61,27 @@ class TextChunker:
                     company=company,
                     report_year=report_year,
                     text=chunk,
+                    page_number=page_number,
                 )
             )
 
-            start += (
-                self.chunk_size
-                - self.chunk_overlap
-            )
-
+            start += self.chunk_size - self.chunk_overlap
             chunk_id += 1
 
         return chunks
+
+    def _find_page_number(self,text: str,) -> int | None:
+        
+        """
+        Attempt to detect the annual report page number.
+        """
+
+        matches = re.findall(
+            r"\n\s*(\d{1,3})\s*\n",
+            text,
+        )
+
+        if not matches:
+            return None
+
+        return int(matches[-1])

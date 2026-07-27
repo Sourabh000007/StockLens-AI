@@ -13,3 +13,9 @@ class RetrievedChunk(BaseModel):
     company: str
 
     report_year: int
+
+    distance: float
+
+    page_number: int | None = None
+
+    section_title: str | None = None
